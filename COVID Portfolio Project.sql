@@ -15,15 +15,13 @@ From PortfolioProject ..CovidDeaths
 order by 1,2
 
 
-
--- Looking at the total cases vs population
 -- this shows what percentage of population got covid 
 Select Location, date, total_cases, population, (total_cases/ population) * 100 as InfectedPercentage
 From PortfolioProject ..CovidDeaths
 Where location like '%Kingdom%'
 order by 1,2
 
--- this show the country with the highest infection rates compared to population in the UK
+-- this show the country with the highest infection rates 
 Select Location, population, MAX(total_cases) as HighestInfectionCount, Max((total_cases/population)) * 100 as PercentPopulationInfected
 From PortfolioProject ..CovidDeaths
  Where location like '%Kingdom%'
