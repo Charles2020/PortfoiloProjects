@@ -1,22 +1,20 @@
 Select * From PortfolioProject ..CovidDeaths
 order by 3,4
 
+Select * 
+From PortfolioProject..CovidDeaths
 
---Select * 
--- From PortfolioProject ..CovidVaccinations
---order by 3,4
+Select * 
+From PortfolioProject..CovidVaccinations
+
+
 
 -- Data i will be using 
-Select Location, date, total_cases, new_cases, total_deaths, population
+Select Location,continent, date, total_cases, new_cases, total_deaths, population
 From PortfolioProject ..CovidDeaths
 order by 1,2
 
--- Looking at the total cases vs total deaths
--- This shows the likehood of dying if you contract covid in your country 
-Select Location, date, total_cases, total_deaths, (total_deaths/total_cases) * 100 as DeathPercentage
-From PortfolioProject ..CovidDeaths
-Where location like '%Kingdom%'
-order by 1,2
+
 
 -- Looking at the total cases vs population
 -- this shows what percentage of population got covid 
@@ -49,15 +47,24 @@ where continent is not null
 Group by continent
 order by TotalDeathCount desc
 
--- Global numbers
-Select date, total_cases, total_deaths, (total_deaths/total_cases) * 100 as DeathPercentage
-From PortfolioProject ..CovidDeaths
-where continent is not null
---Where location like '%Kingdom%'
-order by 1,2
-
+-- joining CovidDeaths table with CovidVaccinations table 
 Select * 
 From PortfolioProject..CovidDeaths as dea
 join PortfolioProject..CovidVaccinations as vac
 on dea.location = vac.location
 and dea.date = vac.date
+
+-- this shows the total number of cases by continent 
+Select continent, max (cast(total_cases as int)) as TotalCasesCount
+from PortfolioProject ..CovidDeaths
+where continent is not null 
+Group by continent
+order by TotalCasesCount desc
+
+-- this shows the total new cases by continent 
+Select continent, max (cast(new_cases as int)) as NewCasesCount
+from PortfolioProject ..CovidDeaths
+where continent is not null 
+Group by continent
+order by NewCasesCount desc
+
